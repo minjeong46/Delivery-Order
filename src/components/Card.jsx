@@ -15,4 +15,4 @@ const Card = ({ menu, addCart }) => {
     );
 };
 
-export default Card;
+export default React.memo(Card);

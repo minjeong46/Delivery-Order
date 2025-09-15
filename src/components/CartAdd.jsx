@@ -46,4 +46,4 @@ const CartAdd = ({ menu, addCart }) => {
     );
 };
 
-export default CartAdd;
+export default React.memo(CartAdd);

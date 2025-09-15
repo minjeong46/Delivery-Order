@@ -4,7 +4,7 @@ const BackDrop = ({ closeModal }) => {
 
     return (
         <div
-            className="fixed inset-0 bg-black/50 "
+            className="fixed inset-0 bg-black/50 z-40"
             onClick={closeModal}
         />
     );

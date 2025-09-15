@@ -39,7 +39,7 @@ const CartModal = ({
                                 <input
                                     type="number"
                                     value={menu.quantity}
-                                    className="w-10 border rounded-md pl-2"
+                                    className="w-10 border rounded-md pl-2  bg-gray-100"
                                     disabled
                                 />
                             </span>

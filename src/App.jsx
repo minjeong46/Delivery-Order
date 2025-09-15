@@ -13,7 +13,7 @@
 전체 금액을 합산해서 모달에서 볼 수 있습니다.
 */
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Card from "./components/Card";
 import Header from "./components/Header";
 import CartModal from "./components/Modal/CartModal";
@@ -21,7 +21,6 @@ import CartModal from "./components/Modal/CartModal";
 function App() {
     const [isOpen, setIsOpen] = useState(false);
     const [cart, setCart] = useState([]);
-    const [totalSumPrice, setTotalSumPrice] = useState(0);
 
     const [menus, setMenus] = useState([
         {
@@ -42,39 +41,38 @@ function App() {
     ]);
 
     useEffect(() => {
-        if (cart.length >= 1) {
-            const totalSum = cart.reduce((total, cart) => {
-                return total + cart.price * cart.quantity;
-            }, 0);
-            setTotalSumPrice(totalSum);
-        }
         if (cart.length === 0) {
-            setTotalSumPrice(0);
             setIsOpen(false);
         }
     }, [cart]);
 
-    const addCart = (value) => {
-        const existsCart = cart.find((item) => item.name === value.name);
-        const addQuantity = Number(value.quantity);
+    const totalSumPrice = useMemo(() => {
+        return cart.reduce(
+            (total, cart) => total + cart.price * cart.quantity,
+            0
+        );
+    }, [cart]);
 
-        if (existsCart) {
-            setCart((prev) =>
-                prev.map((item) =>
+    const addCart = useCallback((value) => {
+        setCart((prev) => {
+            const existsCart = prev.find((item) => item.name === value.name);
+            const addQuantity = Number(value.quantity);
+
+            if (existsCart) {
+                return prev.map((item) =>
                     item.name === value.name
                         ? {
                               ...item,
                               quantity: Number(item.quantity) + addQuantity,
                           }
                         : item
-                )
-            );
-        } else {
-            setCart((prev) => [...prev, { ...value, quantity: addQuantity }]);
-        }
-    };
+                );
+            }
+            return [...prev, { ...value, quantity: addQuantity }];
+        });
+    }, []);
 
-    const quantityChange = (value) => {
+    const quantityChange = useCallback((value) => {
         const quantity = Number(value.quantity);
         setCart((prev) =>
             prev.map((item) =>
@@ -86,7 +84,7 @@ function App() {
                     : item
             )
         );
-    };
+    },[]);
 
     const removeCart = (value) => {
         if (value.quantity === 0) {
@@ -103,8 +101,8 @@ function App() {
         <>
             <Header isOpen={isOpen} closeModal={closeModal} cart={cart} />
             <main className="w-screen h-screen m-auto flex justify-center items-center flex-col">
-                {menus.map((item) => {
-                    return <Card menu={item} addCart={addCart} />;
+                {menus.map((item, index) => {
+                    return <Card key={index} menu={item} addCart={addCart} />;
                 })}
             </main>
             {isOpen && cart.length !== 0 && (
