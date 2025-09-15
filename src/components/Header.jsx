@@ -1,9 +1,6 @@
 import React from "react";
 
-const Header = ({ isOpenChange, cart }) => {
-    const CartClickHandler = () => {
-        isOpenChange((prev) => !prev);
-    };
+const Header = ({ closeModal, cart }) => {
 
     return (
         <header className="p-5 border-b ">
@@ -13,7 +10,7 @@ const Header = ({ isOpenChange, cart }) => {
                 </div>
                 <button
                     className="py-2 px-10 border"
-                    onClick={CartClickHandler}
+                    onClick={closeModal}
                 >
                     <div>장바구니 {cart.length}</div>
                 </button>

@@ -16,7 +16,7 @@
 import { useEffect, useState } from "react";
 import Card from "./components/Card";
 import Header from "./components/Header";
-import CartModal from "./components/Cart/CartModal";
+import CartModal from "./components/Modal/CartModal";
 
 function App() {
     const [isOpen, setIsOpen] = useState(false);
@@ -95,13 +95,13 @@ function App() {
         }
     };
 
-    const isOpenChange = (value) => {
-        setIsOpen(value);
+    const closeModal = () => {
+        setIsOpen((prev) => !prev);
     };
 
     return (
         <>
-            <Header isOpen={isOpen} isOpenChange={isOpenChange} cart={cart} />
+            <Header isOpen={isOpen} closeModal={closeModal} cart={cart} />
             <main className="w-screen h-screen m-auto flex justify-center items-center flex-col">
                 {menus.map((item) => {
                     return <Card menu={item} addCart={addCart} />;
@@ -109,7 +109,7 @@ function App() {
             </main>
             {isOpen && cart.length !== 0 && (
                 <CartModal
-                    isOpenChange={isOpenChange}
+                    closeModal={closeModal}
                     cart={cart}
                     quantityChange={quantityChange}
                     removeCart={removeCart}
