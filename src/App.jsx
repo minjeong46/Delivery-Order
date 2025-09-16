@@ -17,10 +17,11 @@ import { useEffect, useMemo, useState } from "react";
 import Card from "./components/Card";
 import Header from "./components/Header";
 import CartModal from "./components/Modal/CartModal";
-import { CartProvider, useCartState } from "./context/CartContext";
+import { Provider, useSelector } from "react-redux";
+import { store } from "./store";
 
 function AppContent() {
-    const cart = useCartState();
+    const cart = useSelector((state) => state.cart);
     const [isOpen, setIsOpen] = useState(false);
 
     const [menus, setMenus] = useState([
@@ -78,8 +79,8 @@ function AppContent() {
 
 export default function App() {
     return (
-        <CartProvider>
+        <Provider store={store}>
             <AppContent />
-        </CartProvider>
+        </Provider>
     );
 }

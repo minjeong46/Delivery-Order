@@ -1,8 +1,8 @@
 import React from "react";
-import { useCartState } from "../context/CartContext";
+import { useSelector } from "react-redux";
 
 const Header = ({ closeModal }) => {
-    const cart = useCartState();
+    const cart = useSelector((state) => state.cart);
 
     return (
         <header className="p-5 border-b ">

@@ -1,26 +1,25 @@
 import React from "react";
 import Modal from "./Modal";
-import { useCartDispatch, useCartState } from "../../context/CartContext";
+import { useDispatch, useSelector } from "react-redux";
+import { change, remove } from "../../store/cartSlice";
 
 const CartModal = ({ closeModal, totalSumPrice }) => {
-    const cart = useCartState();
-    const dispatch = useCartDispatch();
+    const cart = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
 
     const minusQuantityHandler = (item) => {
-        const newItem = item;
-        if (Number(newItem.quantity) >= 1) {
-            newItem.quantity--;
-            dispatch({ type: "CHANGE", item: newItem });
+        const newItem = { ...item, quantity: item.quantity - 1 };
+        if (newItem.quantity >= 1) {
+            dispatch(change(newItem));
         }
-        if (Number(newItem.quantity) === 0) {
-            dispatch({ type: "REMOVE", item: newItem });
+        if (newItem.quantity === 0) {
+            dispatch(remove(newItem));
         }
     };
 
     const plusQuantityHandler = (item) => {
-        const newItem = item;
-        newItem.quantity++;
-        dispatch({ type: "CHANGE", item: newItem });
+        const newItem = { ...item, quantity: item.quantity + 1 };
+        dispatch(change(newItem));
     };
 
     return (

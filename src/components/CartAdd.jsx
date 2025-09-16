@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
-import { useCartDispatch } from "../context/CartContext";
+import { useDispatch } from "react-redux";
+import { add } from "../store/cartSlice";
 
 const CartAdd = ({ menu }) => {
     const quantityRef = useRef(1);
-    const dispatch = useCartDispatch();
+    const dispatch = useDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -11,11 +12,7 @@ const CartAdd = ({ menu }) => {
         const enteredQuantity = Number(quantityRef.current.value);
 
         if (enteredQuantity >= 1) {
-            const newMenu = {
-                ...menu,
-                quantity: enteredQuantity,
-            };
-            dispatch({ type: "ADD", item: newMenu });
+            dispatch(add({ ...menu, quantity: enteredQuantity }));
             quantityRef.current.value = 1;
         }
     };
