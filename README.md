@@ -1,12 +1,30 @@
-# React + Vite
+# 🍛 배달 앱
+슈퍼코딩 실습 과제
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 📎 프로젝트 설명
+React, Tailwind 사용
 
-Currently, two official plugins are available:
+메뉴가 리스트 형태로 주어지고, 여기에 원하는 메뉴 수량을 조절할 수 있다. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+각 메뉴 카드 오른쪽에 추가하기 버튼이 있어서 누르면 장바구니에 담을 수 있다. 
 
-## Expanding the ESLint configuration
+네비게이션 바에 있는 장바구니 버튼을 클릭하면 장바구니를 모달로 볼 수 있어서 한꺼번에 결제를 할 수 있다.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# 🫴 요구사항
+- 3~5개 정도의 음식 메뉴 카드를 만듭니다. 항목에는 다음과 같은 프로퍼티가 필요합니다.
+  
+    ```
+    음식 이름 : string
+    음식 가격 : number
+    수량 : number
+    ```
+  
+- 최소 수량은 1입니다. 추가하기 버튼을 누른 후 수량은 1로 초기화가 되야 합니다.
+- 추가한 항목들은 장바구니 버튼을 눌러서 모달에서 볼 수 있어야 합니다.
+- 모달에서는 품목별로 수량이 합산되서 나타나며 더하거나 뺄 수 있습니다.
+- 전체 금액을 합산해서 모달에서 볼 수 있습니다.
+
+# ❗️주의사항
+- HTML과 CSS는 와이어프레임을 참고해서 레이아웃이 구분될 정도로만 만들어 주시면 됩니다. 너무 디자인에 집착하지 않아도 됩니다.
+- 리액트 빌트인 훅(useEffect, useMemo, useCallback 등)를 적절하게 목적에 맞게 사용합니다.
+- 리액트 심화에서 배운 내용들(Ref, Portal, Fragment 등)을 적용해 봅니다.
