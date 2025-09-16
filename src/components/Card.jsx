@@ -1,7 +1,7 @@
 import React from "react";
 import CartAdd from "./CartAdd";
 
-const Card = ({ menu, addCart }) => {
+const Card = ({ menu }) => {
     return (
         <div className="w-4/12 flex justify-between py-4 px-5 border-2 mb-2">
             <div className="flex flex-col justify-between">
@@ -10,7 +10,7 @@ const Card = ({ menu, addCart }) => {
                     {menu.price.toLocaleString()}원
                 </span>
             </div>
-            <CartAdd menu={menu} addCart={addCart} />
+            <CartAdd menu={menu} />
         </div>
     );
 };

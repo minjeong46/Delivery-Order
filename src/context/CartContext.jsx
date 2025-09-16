@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer } from "react";
 
-const CartContext = createContext();
+const CartStateContext = createContext();
+const CartDispatchContext = createContext();
 
 const cartReducer = (state, action) => {
     switch (action.type) {
@@ -42,10 +43,13 @@ export const CartProvider = ({ children }) => {
     const [cart, dispatch] = useReducer(cartReducer, []);
 
     return (
-        <CartContext.Provider value={{ cart, dispatch }}>
-            {children}
-        </CartContext.Provider>
+        <CartStateContext.Provider value={cart}>
+            <CartDispatchContext.Provider value={dispatch}>
+                {children}
+            </CartDispatchContext.Provider>
+        </CartStateContext.Provider>
     );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCartState = () => useContext(CartStateContext);
+export const useCartDispatch = () => useContext(CartDispatchContext);

@@ -13,14 +13,14 @@
 전체 금액을 합산해서 모달에서 볼 수 있습니다.
 */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Card from "./components/Card";
 import Header from "./components/Header";
 import CartModal from "./components/Modal/CartModal";
-import { CartProvider, useCart } from "./context/CartContext";
+import { CartProvider, useCartState } from "./context/CartContext";
 
 function AppContent() {
-    const { cart, dispatch } = useCart();
+    const cart = useCartState();
     const [isOpen, setIsOpen] = useState(false);
 
     const [menus, setMenus] = useState([
@@ -60,28 +60,15 @@ function AppContent() {
 
     return (
         <>
-            <Header isOpen={isOpen} closeModal={closeModal} cart={cart} />
+            <Header isOpen={isOpen} closeModal={closeModal} />
             <main className="w-screen h-screen m-auto flex justify-center items-center flex-col">
                 {menus.map((item, index) => {
-                    return (
-                        <Card
-                            key={index}
-                            menu={item}
-                            addCart={(menu) =>
-                                dispatch({ type: "ADD", item: menu })
-                            }
-                        />
-                    );
+                    return <Card key={index} menu={item} />;
                 })}
             </main>
             {isOpen && cart.length !== 0 && (
                 <CartModal
                     closeModal={closeModal}
-                    cart={cart}
-                    quantityChange={(item) =>
-                        dispatch({ type: "CHANGE", item })
-                    }
-                    removeCart={(item) => dispatch({ type: "REMOVE", item })}
                     totalSumPrice={totalSumPrice}
                 />
             )}

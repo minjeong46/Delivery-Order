@@ -1,6 +1,8 @@
 import React from "react";
+import { useCartState } from "../context/CartContext";
 
-const Header = ({ closeModal, cart }) => {
+const Header = ({ closeModal }) => {
+    const cart = useCartState();
 
     return (
         <header className="p-5 border-b ">
@@ -8,10 +10,7 @@ const Header = ({ closeModal, cart }) => {
                 <div>
                     <h1 className="font-bold text-2xl">Delivery App</h1>
                 </div>
-                <button
-                    className="py-2 px-10 border"
-                    onClick={closeModal}
-                >
+                <button className="py-2 px-10 border" onClick={closeModal}>
                     <div>장바구니 {cart.length}</div>
                 </button>
             </nav>

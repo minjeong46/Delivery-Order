@@ -1,19 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useCartDispatch } from "../context/CartContext";
 
-const CartAdd = ({ menu, addCart }) => {
+const CartAdd = ({ menu }) => {
     const quantityRef = useRef(1);
+    const dispatch = useCartDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault();
 
-        const enteredQuantity = quantityRef.current.value;
+        const enteredQuantity = Number(quantityRef.current.value);
 
         if (enteredQuantity >= 1) {
             const newMenu = {
                 ...menu,
                 quantity: enteredQuantity,
             };
-            addCart(newMenu);
+            dispatch({ type: "ADD", item: newMenu });
             quantityRef.current.value = 1;
         }
     };

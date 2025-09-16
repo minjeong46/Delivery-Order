@@ -1,28 +1,26 @@
 import React from "react";
 import Modal from "./Modal";
+import { useCartDispatch, useCartState } from "../../context/CartContext";
 
-const CartModal = ({
-    closeModal,
-    cart,
-    quantityChange,
-    removeCart,
-    totalSumPrice,
-}) => {
+const CartModal = ({ closeModal, totalSumPrice }) => {
+    const cart = useCartState();
+    const dispatch = useCartDispatch();
+
     const minusQuantityHandler = (item) => {
         const newItem = item;
         if (Number(newItem.quantity) >= 1) {
             newItem.quantity--;
-            quantityChange(newItem);
+            dispatch({ type: "CHANGE", item: newItem });
         }
         if (Number(newItem.quantity) === 0) {
-            removeCart(newItem);
+            dispatch({ type: "REMOVE", item: newItem });
         }
     };
 
     const plusQuantityHandler = (item) => {
         const newItem = item;
         newItem.quantity++;
-        quantityChange(newItem);
+        dispatch({ type: "CHANGE", item: newItem });
     };
 
     return (
