@@ -1,31 +1,20 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const CartAdd = ({ menu, addCart }) => {
-    const [quantity, setQuantity] = useState(1);
-
-    const quantityChangeHandler = (e) => {
-        setQuantity(e.target.value);
-    };
-
-    // const submitHandler = (e) => {
-    //     e.preventDefault();
-    //     if (quantity >= 1) {
-    //         const newMenu = { name: menu.name, quantity: menu.quantity };
-    //         newMenu.quantity = quantity;
-    //         addCart(newMenu);
-    //         setQuantity(1);
-    //     }
-    // };
+    const quantityRef = useRef(1);
 
     const submitHandler = (e) => {
         e.preventDefault();
-        if (quantity >= 1) {
+
+        const enteredQuantity = quantityRef.current.value;
+
+        if (enteredQuantity >= 1) {
             const newMenu = {
                 ...menu,
-                quantity: Number(quantity),
+                quantity: enteredQuantity,
             };
             addCart(newMenu);
-            setQuantity(1);
+            quantityRef.current.value = 1;
         }
     };
 
@@ -36,9 +25,9 @@ const CartAdd = ({ menu, addCart }) => {
                 <input
                     type="number"
                     className="border w-12 rounded-md pl-2"
-                    value={quantity}
+                    defaultValue={1}
                     min={1}
-                    onChange={quantityChangeHandler}
+                    ref={quantityRef}
                 />
             </div>
             <button className="border px-3 rounded-md">추가하기</button>

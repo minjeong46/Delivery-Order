@@ -17,10 +17,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Card from "./components/Card";
 import Header from "./components/Header";
 import CartModal from "./components/Modal/CartModal";
+import { CartProvider, useCart } from "./context/CartContext";
 
-function App() {
+function AppContent() {
+    const { cart, dispatch } = useCart();
     const [isOpen, setIsOpen] = useState(false);
-    const [cart, setCart] = useState([]);
 
     const [menus, setMenus] = useState([
         {
@@ -53,46 +54,6 @@ function App() {
         );
     }, [cart]);
 
-    const addCart = useCallback((value) => {
-        setCart((prev) => {
-            const existsCart = prev.find((item) => item.name === value.name);
-            const addQuantity = Number(value.quantity);
-
-            if (existsCart) {
-                return prev.map((item) =>
-                    item.name === value.name
-                        ? {
-                              ...item,
-                              quantity: Number(item.quantity) + addQuantity,
-                          }
-                        : item
-                );
-            }
-            return [...prev, { ...value, quantity: addQuantity }];
-        });
-    }, []);
-
-    const quantityChange = useCallback((value) => {
-        const quantity = Number(value.quantity);
-        setCart((prev) =>
-            prev.map((item) =>
-                item.name === value.name
-                    ? {
-                          ...item,
-                          quantity: quantity,
-                      }
-                    : item
-            )
-        );
-    },[]);
-
-    const removeCart = (value) => {
-        if (value.quantity === 0) {
-            const newItem = cart.filter((item) => item.name !== value.name);
-            setCart(newItem);
-        }
-    };
-
     const closeModal = () => {
         setIsOpen((prev) => !prev);
     };
@@ -102,15 +63,25 @@ function App() {
             <Header isOpen={isOpen} closeModal={closeModal} cart={cart} />
             <main className="w-screen h-screen m-auto flex justify-center items-center flex-col">
                 {menus.map((item, index) => {
-                    return <Card key={index} menu={item} addCart={addCart} />;
+                    return (
+                        <Card
+                            key={index}
+                            menu={item}
+                            addCart={(menu) =>
+                                dispatch({ type: "ADD", item: menu })
+                            }
+                        />
+                    );
                 })}
             </main>
             {isOpen && cart.length !== 0 && (
                 <CartModal
                     closeModal={closeModal}
                     cart={cart}
-                    quantityChange={quantityChange}
-                    removeCart={removeCart}
+                    quantityChange={(item) =>
+                        dispatch({ type: "CHANGE", item })
+                    }
+                    removeCart={(item) => dispatch({ type: "REMOVE", item })}
                     totalSumPrice={totalSumPrice}
                 />
             )}
@@ -118,4 +89,10 @@ function App() {
     );
 }
 
-export default App;
+export default function App() {
+    return (
+        <CartProvider>
+            <AppContent />
+        </CartProvider>
+    );
+}
